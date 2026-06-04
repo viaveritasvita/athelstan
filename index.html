@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulário de Candidatura — Court Cuiabá nº 210</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #B8973A; --gold-light: #D4AF56; --gold-dark: #7A5F1A;
+  --navy: #0E1C2F; --navy-mid: #162540; --cream: #FAF6EE; --cream-dark: #EEE8D8;
+  --text: #1A1208; --text-mid: #4A3C20; --text-light: #7A6840;
+  --red: #8B2020; --green: #1A5C2A; --border: #C8B87A; --border-light: #E0D4A8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--cream); color: var(--text); font-family: 'EB Garamond', Georgia, serif; font-size: 17px; line-height: 1.6; min-height: 100vh; }
+.cover { background: var(--navy); padding: 40px 40px 36px; text-align: center; position: relative; overflow: hidden; }
+.cover::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg,transparent,transparent 60px,rgba(184,151,58,0.04) 60px,rgba(184,151,58,0.04) 61px); pointer-events: none; }
+.cover-logo { width: 120px; height: 120px; border-radius: 50%; border: 2px solid var(--gold-dark); object-fit: cover; display: block; margin: 0 auto 16px; position: relative; z-index: 1; }
+.cover h1 { font-family: 'Cinzel', serif; font-size: 13px; font-weight: 600; color: var(--gold-light); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; position: relative; z-index: 1; }
+.cover h2 { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 700; color: var(--gold); margin-bottom: 8px; position: relative; z-index: 1; }
+.cover p { font-size: 14px; color: rgba(212,175,86,0.55); font-style: italic; letter-spacing: 1px; position: relative; z-index: 1; }
+.cover-divider { width: 120px; height: 1px; background: linear-gradient(90deg,transparent,var(--gold),transparent); margin: 14px auto; position: relative; z-index: 1; }
+.notice { background: #FFF8E8; border-left: 4px solid var(--gold); padding: 16px 20px; margin: 28px 40px 0; border-radius: 0 4px 4px 0; font-size: 15px; color: var(--text-mid); line-height: 1.6; }
+.form-wrap { max-width: 860px; margin: 0 auto; padding: 0 40px 60px; }
+.section { background: white; border: 1px solid var(--border-light); border-radius: 8px; padding: 28px 32px; margin-top: 28px; box-shadow: 0 2px 8px rgba(14,28,47,0.06); }
+.section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+.section-num { background: var(--navy); color: var(--gold-light); font-family: 'Cinzel', serif; font-size: 14px; font-weight: 700; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.section-title { font-family: 'Cinzel', serif; font-size: 15px; font-weight: 600; color: var(--navy); letter-spacing: 1px; text-transform: uppercase; }
+.section-subtitle { font-family: 'EB Garamond', serif; font-size: 13px; font-weight: 400; color: var(--text-light); font-style: italic; letter-spacing: 0; text-transform: none; }
+.field-grid { display: grid; gap: 18px; }
+.field-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+.field-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-family: 'Cinzel', serif; font-size: 12px; font-weight: 600; color: var(--navy); letter-spacing: 0.8px; text-transform: uppercase; }
+.field label .en { font-family: 'EB Garamond', serif; font-size: 12px; font-weight: 400; color: var(--text-light); text-transform: none; letter-spacing: 0; font-style: italic; }
+.field label .req { color: var(--red); }
+.field input, .field select { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 4px; background: var(--cream); color: var(--text); font-family: 'EB Garamond', serif; font-size: 16px; transition: all 0.2s; outline: none; }
+.field input:focus, .field select:focus { border-color: var(--gold); background: white; box-shadow: 0 0 0 3px rgba(184,151,58,0.1); }
+.field input[readonly] { background: var(--cream-dark); color: var(--text-light); cursor: not-allowed; }
+.field-hint { font-size: 13px; color: var(--text-light); font-style: italic; line-height: 1.4; }
+.field-hint code { background: var(--cream-dark); padding: 1px 5px; border-radius: 3px; font-style: normal; font-size: 12px; }
+.field-fixed input { background: var(--cream-dark) !important; color: var(--text-light) !important; font-style: italic; }
+
+/* === Campo de Assinatura === */
+.sig-upload-area {
+  border: 2px dashed var(--border);
+  border-radius: 6px;
+  background: var(--cream);
+  padding: 24px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.sig-upload-area:hover { border-color: var(--gold); background: white; }
+.sig-upload-area.has-image { border-style: solid; border-color: var(--gold-dark); background: white; }
+.sig-upload-icon { font-size: 28px; margin-bottom: 8px; display: block; }
+.sig-upload-text { font-family: 'EB Garamond', serif; font-size: 15px; color: var(--text-light); font-style: italic; }
+.sig-upload-text strong { display: block; font-style: normal; font-family: 'Cinzel', serif; font-size: 12px; color: var(--navy); letter-spacing: 0.5px; margin-bottom: 4px; }
+#sigInput { display: none; }
+#sigPreview {
+  display: none;
+  max-width: 100%;
+  max-height: 180px;
+  margin: 12px auto 0;
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  object-fit: contain;
+  background: white;
+  padding: 8px;
+}
+.sig-btn-group { display: flex; gap: 10px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+.sig-btn-option { background: var(--navy); color: var(--gold-light); font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 0.5px; padding: 8px 18px; border: 1px solid var(--gold-dark); border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+.sig-btn-option:hover { background: var(--gold-dark); color: white; }
+.sig-remove {
+  display: none;
+  margin-top: 10px;
+  background: none;
+  border: 1px solid var(--red);
+  color: var(--red);
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  padding: 5px 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sig-remove:hover { background: var(--red); color: white; }
+/* === / Campo de Assinatura === */
+
+.submit-wrap { text-align: center; margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border-light); }
+.submit-wrap p { font-size: 14px; color: var(--text-light); font-style: italic; margin-bottom: 20px; line-height: 1.5; }
+.btn-submit { background: var(--navy); color: var(--gold-light); font-family: 'Cinzel', serif; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; border: 1px solid var(--gold-dark); border-radius: 4px; padding: 14px 48px; cursor: pointer; transition: all 0.2s; }
+.btn-submit:hover { background: var(--gold-dark); color: white; border-color: var(--gold); }
+.btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+.success-msg { display: none; background: #EAF5EC; border: 1px solid var(--green); border-radius: 6px; padding: 20px 24px; margin-top: 20px; color: var(--green); font-size: 16px; text-align: center; }
+.error-msg { display: none; background: #FEF0F0; border: 1px solid var(--red); border-radius: 6px; padding: 20px 24px; margin-top: 20px; color: var(--red); font-size: 16px; text-align: center; }
+footer { background: var(--navy-mid); border-top: 1px solid var(--gold-dark); padding: 20px 40px; text-align: center; font-size: 12px; color: rgba(212,175,86,0.4); font-style: italic; letter-spacing: 0.5px; }
+@media (max-width: 640px) {
+  .field-grid.cols-2, .field-grid.cols-3 { grid-template-columns: 1fr; }
+  .cover, .form-wrap { padding-left: 20px; padding-right: 20px; }
+  .notice { margin-left: 20px; margin-right: 20px; }
+  .section { padding: 20px 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <img class="cover-logo" src="https://i.imgur.com/VJ0Px3I.png" alt="Brasão Court Cuiabá nº 210">
+  <h1>The Grand Court of the Masonic Order of Athelstan</h1>
+  <div class="cover-divider"></div>
+  <h2>Formulário de Candidatura</h2>
+  <p>Court Cuiabá nº 210 · Province of Brazil</p>
+</div>
+
+<div class="notice">
+  <strong>Atenção:</strong> Preencha todos os campos obrigatórios (<span style="color:var(--red)">*</span>) com atenção. As informações devem coincidir exatamente com seus registros maçônicos oficiais.
+</div>
+
+<div class="form-wrap">
+<form id="mainForm" onsubmit="enviarFormulario(event)">
+
+  <!-- SEÇÃO I — Identificação da Corte / Court Identification -->
+  <div class="section" style="margin-top:32px">
+    <div class="section-header">
+      <span class="section-num">I</span>
+      <div>
+        <div class="section-title">Identificação da Corte</div>
+        <div class="section-subtitle">Court Identification</div>
+      </div>
+    </div>
+    <div class="field-grid cols-3">
+      <div class="field field-fixed">
+        <label>Nome da Corte <em class="en">(Court Name)</em></label>
+        <input type="text" value="Cuiabá" readonly>
+      </div>
+      <div class="field field-fixed">
+        <label>Número <em class="en">(Court No.)</em></label>
+        <input type="text" value="210" readonly>
+      </div>
+      <div class="field field-fixed">
+        <label>Província <em class="en">(Province)</em></label>
+        <input type="text" value="Brazil" readonly>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO II — Dados do Candidato / Candidate's Personal Details -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">II</span>
+      <div>
+        <div class="section-title">Dados do Candidato</div>
+        <div class="section-subtitle">Candidate's Personal Details</div>
+      </div>
+    </div>
+    <div class="field-grid">
+
+      <div class="field">
+        <label>Título / Honrarias <em class="en">(Title, Style, Hons)</em></label>
+        <select name="title" id="selTitle" onchange="toggleOutro('Title')">
+          <option value="">— Selecione / deixe em branco se não possuir —</option>
+          <option value="W.Bro.">Ir. Venerável — Worshipful Brother (W.Bro.)</option>
+          <option value="W.M.">Venerável Mestre — Worshipful Master (W.M.)</option>
+          <option value="P.M.">Ex-VM — Past Master (P.M.)</option>
+          <option value="M.Ex.Comp.">Mui Exc. Companheiro — Most Excellent Companion (M.Ex.Comp.)</option>
+          <option value="E.Comp.">Exc. Companheiro — Excellent Companion (E.Comp.)</option>
+          <option value="P.Z.">Ex-1º Principal — Past Zerubbabel (P.Z.)</option>
+          <option value="R.W.Bro.">Mui Rev. Irmão — Right Worshipful Brother (R.W.Bro.)</option>
+          <option value="V.W.Bro.">Rev. Irmão — Very Worshipful Brother (V.W.Bro.)</option>
+          <option value="__OUTRO__">Outro (digitar) — Other (type)</option>
+        </select>
+        <input type="text" id="outTitle" style="display:none; margin-top:8px" placeholder="Digite o título / honraria">
+        <span class="field-hint">Opcional. Selecione na lista ou escolha “Outro (digitar)”.</span>
+      </div>
+
+      <div class="field-grid cols-3">
+        <div class="field">
+          <label>Prenome(s) <em class="en">(Forename(s))</em> <span class="req">*</span></label>
+          <input type="text" name="forename" required placeholder="Ex: SANDRO GONÇALVES">
+          <span class="field-hint">Seu(s) primeiro(s) nome(s), e o sobrenome do meio. Em maiúsculas.</span>
+        </div>
+        <div class="field">
+          <label>Sobrenome <em class="en">(Surname)</em> <span class="req">*</span></label>
+          <input type="text" name="surname" required placeholder="Ex: DELGADO">
+          <span class="field-hint">Seu Sobrenome.<br>Opcional: inclua sufixo se fizer parte do nome oficial. Ex: DELGADO NETO, SILVA JÚNIOR.</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Endereço completo com CEP <em class="en">(Address incl POST/ZIP Code)</em> <span class="req">*</span></label>
+        <input type="text" name="address" required placeholder="Ex: Rua das Acácias, 100, Centro, Cuiabá-MT, Brasil, CEP 78000-000">
+      </div>
+
+      <div class="field-grid cols-2">
+        <div class="field">
+          <label>Telefone Fixo <em class="en">(Home Tel)</em></label>
+          <input type="tel" name="homeTel" placeholder="Ex: +55 65 3333-3333">
+          <span class="field-hint">Opcional. Inclua DDI e DDD.</span>
+        </div>
+        <div class="field">
+          <label>Celular <em class="en">(Mobile/Cell Tel)</em> <span class="req">*</span></label>
+          <input type="tel" name="mobileTel" required placeholder="Ex: +55 65 99999-9999">
+        </div>
+      </div>
+
+      <div class="field-grid cols-2">
+        <div class="field">
+          <label>Data de Nascimento <em class="en">(Date of Birth)</em> <span class="req">*</span></label>
+          <input type="date" name="dob" required>
+        </div>
+        <div class="field">
+          <label>E-mail <em class="en">(Email)</em> <span class="req">*</span></label>
+          <input type="email" name="email" required placeholder="Ex: seu@email.com">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SEÇÃO III — Dados Maçônicos / Masonic Details -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">III</span>
+      <div>
+        <div class="section-title">Dados Maçônicos</div>
+        <div class="section-subtitle">Masonic Details</div>
+      </div>
+    </div>
+    <div class="field-grid">
+
+      <div class="field-grid cols-2">
+        <div class="field">
+          <label>Loja e Número (Craft) <em class="en">(Craft Lodge Name &amp; No.)</em> <span class="req">*</span></label>
+          <input type="text" name="craftLodge" required placeholder="Ex: ARLS Guardiões da Amazônia nº 3881">
+        </div>
+        <div class="field">
+          <label>Cargo atual na Loja <em class="en">(Current Craft Rank)</em> <span class="req">*</span></label>
+          <select name="craftRank" id="selCraft" required onchange="toggleOutro('Craft')">
+            <option value="">— Selecione —</option>
+            <option value="Master Mason">Master Mason — Mestre Maçom</option>
+            <option value="Worshipful Master">Worshipful Master — Venerável Mestre</option>
+            <option value="Past Master">Past Master — Ex-Venerável</option>
+            <option value="Senior Warden">Senior Warden — 1º Vigilante</option>
+            <option value="Junior Warden">Junior Warden — 2º Vigilante</option>
+            <option value="Treasurer">Treasurer — Tesoureiro</option>
+            <option value="Secretary">Secretary — Secretário</option>
+            <option value="Senior Deacon">Senior Deacon — 1º Diácono</option>
+            <option value="Junior Deacon">Junior Deacon — 2º Diácono</option>
+            <option value="__OUTRO__">Outro (digitar) — Other (type)</option>
+          </select>
+          <input type="text" id="outCraft" style="display:none; margin-top:8px" placeholder="Digite o cargo na Loja">
+        </div>
+      </div>
+
+      <div class="field-grid cols-2">
+        <div class="field">
+          <label>Capítulo e Número (Arco Real) <em class="en">(RA Chapter Name &amp; No.)</em> <span class="req">*</span></label>
+          <input type="text" name="raChapter" required placeholder="Ex: Capítulo Esperança Viva nº 1200">
+        </div>
+        <div class="field">
+          <label>Cargo atual no Capítulo <em class="en">(Current RA Rank)</em> <span class="req">*</span></label>
+          <select name="raRank" id="selRa" required onchange="toggleOutro('Ra')">
+            <option value="">— Selecione —</option>
+            <option value="Companion">Companion — Companheiro</option>
+            <option value="Zerubbabel">Zerubbabel — 1º Principal</option>
+            <option value="Haggai">Haggai — 2º Principal</option>
+            <option value="Joshua">Joshua — 3º Principal</option>
+            <option value="Past Zerubbabel">Past Zerubbabel — Ex-1º Principal</option>
+            <option value="Treasurer">Treasurer — Tesoureiro</option>
+            <option value="Scribe E">Scribe E — Secretário E</option>
+            <option value="Scribe N">Scribe N — Secretário N</option>
+            <option value="__OUTRO__">Outro (digitar) — Other (type)</option>
+          </select>
+          <input type="text" id="outRa" style="display:none; margin-top:8px" placeholder="Digite o cargo no Capítulo">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SEÇÃO IV — Assinatura / Signature -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">IV</span>
+      <div>
+        <div class="section-title">Assinatura do Candidato</div>
+        <div class="section-subtitle">Candidate's Signature</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Foto da Assinatura <em class="en">(Signature Photo)</em></label>
+      <div class="sig-upload-area has-buttons" id="sigArea">
+        <span class="sig-upload-icon" id="sigIcon">✒</span>
+        <div class="sig-upload-text" id="sigText">
+          <strong>Anexar assinatura</strong>
+          Assine em papel branco e fotografe ou digitalize.<br>
+          <em style="font-size:12px">(Sign on white paper, then photograph or scan)</em>
+        </div>
+        <div class="sig-btn-group" id="sigBtnGroup">
+          <button type="button" class="sig-btn-option" onclick="abrirCamera()">📷 Tirar foto</button>
+          <button type="button" class="sig-btn-option" onclick="abrirGaleria()">🖼️ Escolher arquivo</button>
+        </div>
+        <input type="file" id="sigInputCamera"  accept="image/*" capture="environment" onchange="previewSig(event)" style="display:none">
+        <input type="file" id="sigInputGaleria" accept="image/*" onchange="previewSig(event)" style="display:none">
+        <img id="sigPreview" alt="Prévia da assinatura">
+      </div>
+      <button type="button" class="sig-remove" id="sigRemoveBtn" onclick="removerSig()">✕ Remover assinatura</button>
+      <span class="field-hint">Opcional. Formatos aceitos: JPG, PNG, HEIC. Tamanho máximo recomendado: 5 MB.</span>
+    </div>
+  </div>
+
+  <div class="submit-wrap">
+    <p>
+      Ao enviar este formulário, você declara que leu o <em>Data Protection Notice</em> disponível em <strong>www.athelstan.org.uk</strong> e consente com o processamento de seus dados pessoais para os fins nele estabelecidos.
+    </p>
+    <button type="submit" class="btn-submit" id="btnSubmit">Enviar Candidatura</button>
+    <div class="success-msg" id="successMsg">
+      <strong>✒ Candidatura enviada com sucesso.</strong><br>
+      Seus dados foram recebidos pelo secretário da Court Cuiabá nº 210. Em breve entraremos em contato.
+    </div>
+    <div class="error-msg" id="errorMsg">
+      <strong>✗ Erro ao enviar.</strong><br>
+      Por favor, tente novamente ou entre em contato diretamente com o secretário.
+    </div>
+  </div>
+
+</form>
+</div>
+
+<footer>
+  Court Cuiabá nº 210 · Province of Brazil · The Masonic Order of Athelstan<br>
+  MEM1_07_2023 v1.2 · Formulário digital v5 para uso interno
+</footer>
+
+<script>
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypeMQ1ei-3-COtznR5UVyM8xdiAge9tTv8GIDymmwySZDHw4YDNoi_aPgdzxJjcObujA/exec';
+
+/* === Assinatura === */
+var sigBase64 = null;
+var sigFileName = null;
+var sigMimeType = null;
+
+function abrirCamera() {
+  document.getElementById('sigInputCamera').click();
+}
+function abrirGaleria() {
+  document.getElementById('sigInputGaleria').click();
+}
+
+function mostrarPreviewSig(dataUrl) {
+  sigBase64 = dataUrl;
+  var preview = document.getElementById('sigPreview');
+  var area = document.getElementById('sigArea');
+  var removeBtn = document.getElementById('sigRemoveBtn');
+  preview.src = dataUrl;
+  preview.style.display = 'block';
+  area.classList.add('has-image');
+  removeBtn.style.display = 'inline-block';
+  document.querySelector('.sig-upload-text').style.display = 'none';
+  document.querySelector('.sig-upload-icon').style.display = 'none';
+  document.getElementById('sigBtnGroup').style.display = 'none';
+}
+
+function previewSig(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  sigFileName = (file.name || 'assinatura').replace(/\.[^.]+$/, '') + '.jpg';
+  sigMimeType = 'image/jpeg';
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      // Redimensiona se for muito grande (lado máximo 1600px)
+      var maxLado = 1600;
+      var w = img.width, h = img.height;
+      if (w > maxLado || h > maxLado) {
+        if (w >= h) { h = Math.round(h * maxLado / w); w = maxLado; }
+        else { w = Math.round(w * maxLado / h); h = maxLado; }
+      }
+      var canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      // Fundo branco (caso a origem tenha transparência)
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, w, h);
+      ctx.drawImage(img, 0, 0, w, h);
+      try {
+        var jpegUrl = canvas.toDataURL('image/jpeg', 0.9);
+        mostrarPreviewSig(jpegUrl);
+      } catch (err) {
+        // Fallback: usa o original se a conversão falhar
+        sigMimeType = file.type || 'image/jpeg';
+        sigFileName = file.name || 'assinatura';
+        mostrarPreviewSig(e.target.result);
+      }
+    };
+    img.onerror = function() {
+      // Navegador não decodificou (ex.: HEIC sem suporte) — envia o original
+      sigMimeType = file.type || 'image/jpeg';
+      sigFileName = file.name || 'assinatura';
+      mostrarPreviewSig(e.target.result);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removerSig() {
+  sigBase64 = null;
+  sigFileName = null;
+  sigMimeType = null;
+  var preview = document.getElementById('sigPreview');
+  var area = document.getElementById('sigArea');
+  var removeBtn = document.getElementById('sigRemoveBtn');
+  preview.src = '';
+  preview.style.display = 'none';
+  area.classList.remove('has-image');
+  removeBtn.style.display = 'none';
+  document.querySelector('.sig-upload-text').style.display = 'block';
+  document.querySelector('.sig-upload-icon').style.display = 'block';
+  document.getElementById('sigBtnGroup').style.display = 'flex';
+  document.getElementById('sigInputCamera').value = '';
+  document.getElementById('sigInputGaleria').value = '';
+}
+/* === / Assinatura === */
+
+/* Mostra/esconde campo "Outro (digitar)" dos selects */
+function toggleOutro(suf) {
+  var sel = document.getElementById('sel' + suf);
+  var out = document.getElementById('out' + suf);
+  if (!sel || !out) return;
+  if (sel.value === '__OUTRO__') {
+    out.style.display = 'block';
+    out.focus();
+    // se o select era obrigatório, passa a exigência para o campo de texto
+    if (sel.required) { out.setAttribute('required', 'required'); }
+  } else {
+    out.style.display = 'none';
+    out.removeAttribute('required');
+    out.value = '';
+  }
+}
+
+async function enviarFormulario(e) {
+  e.preventDefault();
+  var btn = document.getElementById('btnSubmit');
+  var successMsg = document.getElementById('successMsg');
+  var errorMsg = document.getElementById('errorMsg');
+
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+  successMsg.style.display = 'none';
+  errorMsg.style.display = 'none';
+
+  var form = e.target;
+  var data = { timestamp: new Date().toLocaleString('pt-BR') };
+  // Garante que todos os campos sejam enviados, mesmo os vazios
+  var camposFixos = ['title','forename','surname','address','homeTel','mobileTel',
+                     'dob','email','craftLodge','craftRank','raChapter','raRank',
+                     'gcCertNo','notes'];
+  camposFixos.forEach(function(key) {
+    var el = form.elements[key];
+    data[key] = el ? (el.value || '') : '';
+  });
+
+  // Se o usuário escolheu "Outro (digitar)", usa o texto livre
+  var mapaOutro = { title: 'outTitle', craftRank: 'outCraft', raRank: 'outRa' };
+  Object.keys(mapaOutro).forEach(function(campo) {
+    if (data[campo] === '__OUTRO__') {
+      var outEl = document.getElementById(mapaOutro[campo]);
+      data[campo] = outEl ? (outEl.value || '') : '';
+    }
+  });
+
+  // Inclui dados da assinatura se houver
+  if (sigBase64) {
+    data.signatureBase64 = sigBase64;   // o Apps Script salva no Drive e grava o link
+    data.signatureFileName = sigFileName;
+    data.signatureMimeType = sigMimeType;
+  }
+
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    successMsg.style.display = 'block';
+    btn.style.display = 'none';
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  } catch (err) {
+    errorMsg.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Enviar Candidatura';
+  }
+}
+</script>
+</body>
+</html>
