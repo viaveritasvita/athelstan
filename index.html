@@ -322,6 +322,10 @@ footer { background: var(--navy-mid); border-top: 1px solid var(--gold-dark); pa
     <div class="success-msg" id="successMsg">
       <strong>✒ Candidatura enviada com sucesso.</strong><br>
       Seus dados foram recebidos pelo secretário da Court Cuiabá nº 210. Em breve entraremos em contato.
+      <div style="margin-top:16px;font-size:13px;color:#2c6e49;">
+        Redirecionando ao painel de fundadores em <span id="redirCount">8</span>s…
+      </div>
+      <a href="painel.html" id="goPainel" style="display:inline-block;margin-top:14px;background:var(--navy);color:var(--gold-light);font-family:'Cinzel',serif;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;border:1px solid var(--gold-dark);border-radius:4px;padding:11px 28px;">Ver painel agora →</a>
     </div>
     <div class="error-msg" id="errorMsg">
       <strong>✗ Erro ao enviar.</strong><br>
@@ -334,7 +338,8 @@ footer { background: var(--navy-mid); border-top: 1px solid var(--gold-dark); pa
 
 <footer>
   Court Cuiabá nº 210 · Province of Brazil · The Masonic Order of Athelstan<br>
-  MEM1_07_2023 v1.2 · Formulário digital v5 para uso interno
+  MEM1_07_2023 v1.2 · Formulário digital v12.3 para uso interno<br>
+  <a href="painel.html" style="display:inline-block;margin-top:12px;color:#D4AF56;text-decoration:none;font-style:normal;letter-spacing:1px;border:1px solid rgba(212,175,86,0.35);padding:7px 16px;border-radius:7px;font-size:11px;text-transform:uppercase;">Painel de fundadores →</a>
 </footer>
 
 <script>
@@ -496,6 +501,14 @@ async function enviarFormulario(e) {
     successMsg.style.display = 'block';
     btn.style.display = 'none';
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    // Redireciona ao painel apos o envio (contagem regressiva)
+    var secs = 8;
+    var cd = document.getElementById('redirCount');
+    var timer = setInterval(function () {
+      secs--;
+      if (cd) cd.textContent = secs;
+      if (secs <= 0) { clearInterval(timer); window.location.href = 'painel.html'; }
+    }, 1000);
   } catch (err) {
     errorMsg.style.display = 'block';
     btn.disabled = false;
