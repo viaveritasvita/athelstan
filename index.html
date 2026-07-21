@@ -230,6 +230,18 @@ footer a{color:var(--gold-light)}
       </div>
       <div class="field-grid cols-2">
         <div class="field">
+          <label>Data de Iniciação <em class="en">(Craft Join Date)</em> <span class="req">*</span></label>
+          <input type="date" name="joinCraft" required>
+          <span class="field-hint">Data em que foi iniciado na Loja Simbólica.</span>
+        </div>
+        <div class="field">
+          <label>Constituição da Loja <em class="en">(Craft Constitution)</em> <span class="req">*</span></label>
+          <input type="text" name="constCraft" required placeholder="Ex: GOB, GLMMG, COMAB, GOEMT">
+          <span class="field-hint">Potência, Obediência ou Constituição da sua Loja.</span>
+        </div>
+      </div>
+      <div class="field-grid cols-2">
+        <div class="field">
           <label>Capítulo e Número (Arco Real) <em class="en">(RA Chapter Name &amp; No.)</em> <span class="req">*</span></label>
           <input type="text" name="raChapter" required placeholder="Ex: Capítulo Esperança Viva nº 1200">
         </div>
@@ -250,11 +262,29 @@ footer a{color:var(--gold-light)}
           <input type="text" id="outRa" style="display:none;margin-top:8px" placeholder="Digite o cargo no Capítulo">
         </div>
       </div>
+      <div class="field-grid cols-2">
+        <div class="field">
+          <label>Data de Exaltação <em class="en">(RA Join Date)</em> <span class="req">*</span></label>
+          <input type="date" name="joinRA" required>
+          <span class="field-hint">Data em que foi exaltado ao Arco Real.</span>
+        </div>
+        <div class="field">
+          <label>Constituição do Capítulo <em class="en">(RA Constitution)</em> <span class="req">*</span></label>
+          <input type="text" name="constRA" required placeholder="Ex: SGCMSARMT, SGCARB, GOB">
+          <span class="field-hint">Potência, Obediência ou Constituição do seu Capítulo.</span>
+        </div>
+      </div>
       <div class="field">
         <label>Nº do Certificado GC <em class="en">(GC Certificate No.)</em></label>
         <input type="text" name="gcCertNo" placeholder="Se já possuir — caso contrário, deixe em branco">
         <span class="field-hint">Opcional. Apenas para quem já é membro do Athelstan (filiação/instrução).</span>
       </div>
+      <div class="field">
+        <label>Observações <em class="en">(Notes)</em></label>
+        <textarea name="notes" rows="3" style="width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:4px;background:#FCFAF5;color:var(--text);font-family:'EB Garamond',serif;font-size:16px;resize:vertical"></textarea>
+        <span class="field-hint">Opcional. Qualquer informação adicional relevante.</span>
+      </div>
+
     </div>
   </div>
 
@@ -336,7 +366,7 @@ async function enviarFormulario(e){
   btn.disabled=true;btn.textContent='Enviando...';ok.style.display='none';er.style.display='none';
   var form=e.target;
   var data={timestamp:new Date().toLocaleString('pt-BR')};
-  var campos=['forename','surname','address','homeTel','mobileTel','dob','email','craftLodge','gcCertNo'];
+  var campos=['forename','surname','address','homeTel','mobileTel','dob','email','craftLodge','joinCraft','constCraft','raChapter','craftRank','joinRA','constRA','gcCertNo','notes'];
   campos.forEach(function(k){var el=form.elements[k];data[k]=el?(el.value||''):''});
   // corte + tipo
   var selC=document.getElementById('selCorte'),optC=selC.options[selC.selectedIndex];
