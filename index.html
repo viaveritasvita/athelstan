@@ -44,7 +44,7 @@ body{background:var(--cream);color:var(--text);font-family:'EB Garamond',Georgia
 .field-grid.cols-2{grid-template-columns:1fr 1fr}
 .field-grid.cols-3{grid-template-columns:1fr 1fr 1fr}
 .field{display:flex;flex-direction:column;gap:6px}
-.field label{font-family:'Cinzel',serif;font-size:12px;font-weight:600;color:var(--carm);letter-spacing:.8px;text-transform:uppercase}
+.field label{font-family:'Cinzel',serif;font-size:12px;font-weight:600;color:var(--carm);letter-spacing:.8px;text-transform:uppercase;min-height:2.9em;line-height:1.35;display:block}
 .field label .en{font-family:'EB Garamond',serif;font-size:13.5px;font-weight:500;color:#5A4530;text-transform:none;letter-spacing:0;font-style:italic}
 .field label .req{color:var(--err)}
 .field input,.field select{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:4px;background:#FCFAF5;color:var(--text);font-family:'EB Garamond',serif;font-size:16px;transition:all .2s;outline:none}
@@ -112,10 +112,8 @@ footer a{color:var(--gold-light)}
       <select name="corte" id="selCorte" class="corte-pick" required onchange="onCorte()">
         <option value="">— Selecione a sua Corte —</option>
         <optgroup label="Cortes em Fundação (Fundador)">
-          <option value="Humberto Barcellos Ramos" data-tipo="Fundador">Humberto Barcellos Ramos — Rio de Janeiro (RJ) · em fundação</option>
           <option value="Abraão" data-tipo="Fundador">Abraão — Rio de Janeiro (RJ) · em fundação</option>
-          <option value="Nova Corte SP" data-tipo="Fundador">Nova Corte — São Paulo (SP) · em fundação (nome a definir)</option>
-          <option value="Nova Corte SC" data-tipo="Fundador">Nova Corte — Santa Catarina (SC) · em fundação (nome a definir)</option>
+          <option value="Balneário Camboriú" data-tipo="Fundador">Balneário Camboriú (SC) · em fundação</option>
           <option value="Campos do Jordão" data-tipo="Fundador">Campos do Jordão (SP) · em fundação</option>
           <option value="Bandeirantes" data-tipo="Fundador">Bandeirantes — Campinas (SP) · em fundação</option>
           <option value="__OUTRA__" data-tipo="Fundador">Outra corte em fundação (especificar)…</option>
@@ -209,7 +207,7 @@ footer a{color:var(--gold-light)}
     <div class="field-grid">
       <div class="field-grid cols-2">
         <div class="field">
-          <label>Loja e Número (Craft) <em class="en">(Craft Lodge Name &amp; No.)</em> <span class="req">*</span></label>
+          <label>Loja e Número (Craft) <em class="en">(Craft Lodge &amp; No.)</em> <span class="req">*</span></label>
           <input type="text" name="craftLodge" required placeholder="Ex: ARLS Estrela do Oriente nº 1234">
         </div>
         <div class="field">
@@ -238,13 +236,13 @@ footer a{color:var(--gold-light)}
         </div>
         <div class="field">
           <label>Constituição da Loja <em class="en">(Craft Constitution)</em> <span class="req">*</span></label>
-          <input type="text" name="constCraft" required placeholder="Ex: GOB, GLMMG, COMAB, GOEMT">
+          <input type="text" name="constCraft" required placeholder="Ex: GOB, GLMMG, GOEMT">
           <span class="field-hint">Potência, Obediência ou Constituição da sua Loja.</span>
         </div>
       </div>
       <div class="field-grid cols-2">
         <div class="field">
-          <label>Capítulo e Número (Arco Real) <em class="en">(RA Chapter Name &amp; No.)</em> <span class="req">*</span></label>
+          <label>Capítulo e Número (Arco Real) <em class="en">(RA Chapter &amp; No.)</em> <span class="req">*</span></label>
           <input type="text" name="raChapter" required placeholder="Ex: Capítulo Esperança Viva nº 1200">
         </div>
         <div class="field">
@@ -273,13 +271,12 @@ footer a{color:var(--gold-light)}
         <div class="field">
           <label>Constituição do Capítulo <em class="en">(RA Constitution)</em> <span class="req">*</span></label>
           <input type="text" name="constRA" required placeholder="Ex: SGCMSARMT, SGCARB, GOB">
-          <span class="field-hint">Potência, Obediência ou Constituição do seu Capítulo.</span>
         </div>
       </div>
       <div class="field">
-        <label>Nº do Certificado GC <em class="en">(GC Certificate No.)</em></label>
-        <input type="text" name="gcCertNo" placeholder="Se já possuir — caso contrário, deixe em branco">
-        <span class="field-hint">Opcional. Apenas para quem já é membro do Athelstan (filiação/instrução).</span>
+        <label>Nº do Certificado da Grand Court <em class="en">(GC Certificate No.)</em></label>
+        <input type="text" name="gcCertNo" placeholder="Se já for membro da Ordem — caso contrário, deixe em branco">
+        <span class="field-hint">Opcional. Número do certificado da <strong>Grand Court of Athelstan</strong> — apenas para quem já é membro da Ordem e está se filiando.</span>
       </div>
       <div class="field">
         <label>Observações <em class="en">(Notes)</em></label>
