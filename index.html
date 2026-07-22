@@ -113,7 +113,7 @@ footer a{color:var(--gold-light)}
         <option value="">— Selecione a sua Corte —</option>
         <optgroup label="Cortes em Fundação (Fundador)">
           <option value="Abraão" data-tipo="Fundador">Abraão — Rio de Janeiro (RJ) · em fundação</option>
-          <option value="Balneário Camboriú" data-tipo="Fundador">Balneário Camboriú (SC) · em fundação</option>
+          <option value="Saint John's" data-tipo="Fundador">Saint John's — Balneário Camboriú (SC) · em fundação</option>
           <option value="Campos do Jordão" data-tipo="Fundador">Campos do Jordão (SP) · em fundação</option>
           <option value="Bandeirantes" data-tipo="Fundador">Bandeirantes — Campinas (SP) · em fundação</option>
           <option value="__OUTRA__" data-tipo="Fundador">Outra corte em fundação (especificar)…</option>
@@ -337,6 +337,43 @@ footer a{color:var(--gold-light)}
 
 <script>
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypeMQ1ei-3-COtznR5UVyM8xdiAge9tTv8GIDymmwySZDHw4YDNoi_aPgdzxJjcObujA/exec';
+var SHEET_ID_CORTES = '15RXx6LlJN5H6G9oIJxV2eDZkZ8yiciV16Y54QwtDxm4';
+
+function _parseCSV(txt){var rows=[],row=[],cur='',q=false;for(var i=0;i<txt.length;i++){var ch=txt[i];if(q){if(ch=='"'){if(txt[i+1]=='"'){cur+='"';i++;}else q=false;}else cur+=ch;}else{if(ch=='"')q=true;else if(ch==','){row.push(cur);cur='';}else if(ch=='\n'){row.push(cur);rows.push(row);row=[];cur='';}else if(ch=='\r'){}else cur+=ch;}}if(cur.length||row.length){row.push(cur);rows.push(row);}return rows;}
+
+// Carrega a lista de cortes da aba "Cortes" da planilha (dinâmico).
+// Se falhar, mantém as opções fixas do HTML (fallback).
+async function carregarCortes(){
+  try{
+    var url='https://docs.google.com/spreadsheets/d/'+SHEET_ID_CORTES+'/gviz/tq?tqx=out:csv&sheet=Cortes&_='+Date.now();
+    var t=await fetch(url).then(function(r){return r.text();});
+    var rows=_parseCSV(t); if(rows.length<2) return;
+    var hdr=rows[0].map(function(x){return (x||'').trim().toLowerCase();});
+    function idx(n){return hdr.findIndex(function(x){return x.indexOf(n)>-1;});}
+    var iG=idx('grupo'), iV=idx('valor'), iR=idx('tulo'), iT=idx('tipo');
+    if(iV<0||iR<0) return;
+    var grupos=[], mapa={};
+    rows.slice(1).forEach(function(r){
+      var v=(r[iV]||'').trim(); if(!v) return;
+      var g=((iG>-1?r[iG]:'')||'Cortes').trim();
+      if(!mapa[g]){mapa[g]=[];grupos.push(g);}
+      mapa[g].push({v:v, lab:((r[iR]||v)||'').trim(), tipo:(iT>-1?(r[iT]||''):'').trim()});
+    });
+    if(!grupos.length) return;
+    var sel=document.getElementById('selCorte');
+    var arr=sel.querySelectorAll('optgroup'); for(var k=0;k<arr.length;k++) arr[k].remove();
+    grupos.forEach(function(g){
+      var og=document.createElement('optgroup'); og.label=g;
+      mapa[g].forEach(function(c){var o=document.createElement('option');o.value=c.v;o.setAttribute('data-tipo',c.tipo);o.textContent=c.lab;og.appendChild(o);});
+      sel.appendChild(og);
+    });
+    var ogo=document.createElement('optgroup'); ogo.label='Outra';
+    var oo=document.createElement('option'); oo.value='__OUTRA__'; oo.setAttribute('data-tipo','Fundador'); oo.textContent='Outra corte (especificar)…'; ogo.appendChild(oo);
+    sel.appendChild(ogo);
+  }catch(e){ /* mantém a lista fixa */ }
+}
+carregarCortes();
+
 
 /* Corte */
 function onCorte(){
