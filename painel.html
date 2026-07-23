@@ -61,10 +61,14 @@ tbody tr:hover{background:#FCF8EF}
 .cta{display:inline-block;font-family:'Cinzel',serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-soft);background:var(--carm);text-decoration:none;padding:13px 30px;border-radius:8px;border:1px solid var(--gold-dark)}
 .cta:hover{background:var(--carm-2)}
 footer{text-align:center;color:var(--muted);font-size:.82rem;margin-top:34px;font-style:italic}
+.topnav{background:var(--carm-2);text-align:center;padding:10px 12px}
+.topnav a{font-family:'Cinzel',serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-soft);text-decoration:none}
+.topnav a:hover{color:#fff}
 @media(max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
+<div class="topnav"><a href="./">&#9998; Formulário de candidatura &rarr;</a></div>
 <div class="cover">
   <div class="orn">✦ ✦ ✦</div>
   <h1>The Masonic Order of Athelstan</h1>
@@ -170,11 +174,10 @@ function render(){
   nomes.forEach(function(cn){
     var recs=grupos[cn]; var tipo=recs[0].tipo?('<span class="tag">'+recs[0].tipo+'</span>'):'';
     html+='<div class="court-group"><div class="court-head">'+cn+' '+tipo+' <span class="cnt">· '+recs.length+' candidatura(s)</span></div>';
-    html+='<div class="panel"><table><thead><tr><th class="rownum">#</th><th>Candidato</th><th>E-mail</th><th>Assinatura</th><th>Status</th></tr></thead><tbody>';
+    html+='<div class="panel"><table><thead><tr><th class="rownum">#</th><th>Candidato</th><th>Status</th></tr></thead><tbody>';
     recs.forEach(function(r,i){
       var cl=classify(r.note);
-      var sig=(r.sig&&r.sig.indexOf('http')===0)?('<a class="sig" href="'+r.sig+'" target="_blank">📎 ver</a>'):'—';
-      html+='<tr><td class="rownum">'+(i+1)+'</td><td class="nm">'+nome(r)+'</td><td>'+(r.email||'—')+'</td><td>'+sig+'</td><td><span class="badge '+cl+'">'+BADGE[cl]+'</span></td></tr>';
+      html+='<tr><td class="rownum">'+(i+1)+'</td><td class="nm">'+nome(r)+'</td><td><span class="badge '+cl+'">'+BADGE[cl]+'</span></td></tr>';
     });
     html+='</tbody></table></div></div>';
   });
