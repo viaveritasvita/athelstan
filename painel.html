@@ -55,6 +55,7 @@ tbody tr:hover{background:#FCF8EF}
 .badge.ok{color:var(--green);background:var(--green-bg)} .badge.ok::before{background:var(--green)}
 .badge.prog{color:var(--amber);background:var(--amber-bg)} .badge.prog::before{background:var(--amber)}
 .badge.new{color:var(--grey);background:var(--grey-bg)} .badge.new::before{background:var(--grey)}
+tr.canc td.nm{text-decoration:line-through;color:var(--grey)}
 .badge.err{color:#9E2B2B;background:#F7E0E0} .badge.err::before{background:#9E2B2B}
 .sig{color:var(--gold-dim);text-decoration:none;font-size:.85rem} .sig:hover{color:var(--carm)}
 .empty{padding:40px;text-align:center;color:var(--muted);font-style:italic}
@@ -156,11 +157,16 @@ var STATUS_CLASS={
   'aprovada gr. conselho':'ok',
   'ar enviado':'ok',
   'consagrada':'ok',
-  'recusada':'err'
+  'recusada':'err',
+  'cancelada':'err'
 };
+// Cancelada: qualquer status que comece por "Cancelada" (ex.: "Cancelada (falecimento)").
+// Fica na lista riscada e não entra nas contagens.
+function cancelada(r){ return /^cancelad/i.test((r.status||'').trim()); }
 function statusInfo(s){
   var t=(s||'').trim();
   if(!t) return {cl:'new', txt:'Recebida'};
+  if(/^cancelad/i.test(t)) return {cl:'err', txt:t};
   return {cl: STATUS_CLASS[t.toLowerCase()] || 'prog', txt:t};
 }
 function cap(w){ if(!w)return''; var l=w.toLocaleLowerCase('pt-BR'); return l.charAt(0).toLocaleUpperCase('pt-BR')+l.slice(1); }
@@ -171,8 +177,9 @@ function render(){
   var filtro=document.getElementById('fCorte').value;
   var lista=DADOS.filter(function(r){return !filtro||r.corte===filtro;});
   // KPIs
-  document.getElementById('k-total').textContent=lista.length;
-  var cortes={}; lista.forEach(function(r){cortes[r.corte]=true;});
+  var ativas=lista.filter(function(r){return !cancelada(r);});
+  document.getElementById('k-total').textContent=ativas.length;
+  var cortes={}; ativas.forEach(function(r){cortes[r.corte]=true;});
   document.getElementById('k-cortes').textContent=Object.keys(cortes).length;
   document.getElementById('k-sig').textContent=lista.filter(function(r){return (r.status||'').trim().toLowerCase()==='assinatura com falha';}).length;
   document.getElementById('k-new').textContent=lista.filter(function(r){var s=(r.status||'').trim().toLowerCase(); return !s||s==='recebida';}).length;
@@ -184,11 +191,11 @@ function render(){
   if(!nomes.length){ html='<div class="panel"><div class="empty">Nenhuma candidatura ainda.</div></div>'; }
   nomes.forEach(function(cn){
     var recs=grupos[cn]; var tipo=recs[0].tipo?('<span class="tag">'+recs[0].tipo+'</span>'):'';
-    html+='<div class="court-group"><div class="court-head">'+cn+' '+tipo+' <span class="cnt">· '+recs.length+' candidatura(s)</span></div>';
+    html+='<div class="court-group"><div class="court-head">'+cn+' '+tipo+' <span class="cnt">· '+recs.filter(function(r){return !cancelada(r);}).length+' candidatura(s)</span></div>';
     html+='<div class="panel"><table><thead><tr><th class="rownum">#</th><th>Candidato</th><th>Status</th></tr></thead><tbody>';
     recs.forEach(function(r,i){
       var si=statusInfo(r.status);
-      html+='<tr><td class="rownum">'+(i+1)+'</td><td class="nm">'+nome(r)+'</td><td><span class="badge '+si.cl+'">'+si.txt+'</span></td></tr>';
+      html+='<tr'+(cancelada(r)?' class="canc"':'')+'><td class="rownum">'+(i+1)+'</td><td class="nm">'+nome(r)+'</td><td><span class="badge '+si.cl+'">'+si.txt+'</span></td></tr>';
     });
     html+='</tbody></table></div></div>';
   });
